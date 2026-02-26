@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4gms</title>
+
+<style>
+
+/* ===== FOND D'ECRAN ===== */
+body {
+  margin: 0;
+  background: url("https://images.unsplash.com/photo-1519681393784-d120267933ba") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Overlay sombre */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: -1;
+}
+
+/* ===== ECRAN D'ENTREE ===== */
+#intro {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  cursor: pointer;
+  transition: opacity 0.8s ease;
+}
+
+#intro h2 {
+  font-size: 32px;
+  color: #fff;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #fff,
+    0 0 40px #fff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* ===== CONTENU ===== */
+#main-content {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+  padding: 120px 20px 50px;
+  text-align: center;
+}
+
+/* ===== PROFIL HAUT GAUCHE ===== */
+.profile-container {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-container img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  transition: 0.4s;
+}
+
+.profile-container img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #fff;
+}
+
+.profile-container h1 {
+  font-size: 32px;
+  margin: 0;
+  color: #fff;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #fff,
+    0 0 40px #fff;
+}
+
+/* ===== BOUTONS ===== */
+a {
+  display: block;
+  margin: 15px auto;
+  padding: 16px 0;
+  width: 280px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(5px);
+  transition: 0.3s;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+a.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+a:hover {
+  border: 1px solid #fff;
+  box-shadow: 0 0 15px #fff;
+  transform: translateY(-3px);
+}
+
+/* ===== COMPTEUR VUES ===== */
+#view-counter {
+  position: fixed;
+  bottom: 15px;
+  left: 20px;
+  font-size: 14px;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 0 5px #fff;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Ecran d'accueil -->
+<div id="intro">
+  <h2>Click to enter...</h2>
+</div>
+
+<!-- Contenu principal -->
+<div id="main-content">
+
+<div class="profile-container">
+  <img src="https://shapes.inc/api/public/avatar/itoshirinilovekei" alt="Photo de 4gms">
+  <h1>4gms</h1>
+</div>
+
+<a href="https://instagram.com/ga_etan12" target="_blank">Instagram</a>
+<a href="https://guns.lol/upv9" target="_blank">Guns.lol</a>
+<a href="https://paypal.me/agrumes12" target="_blank">Paypal</a>
+<a href="https://discord.gg/zyBmkPyw" target="_blank">Contact</a>
+
+</div>
+
+<!-- Compteur avec oeil -->
+<div id="view-counter">
+  👁 <span id="views">0</span>
+</div>
+
+<script>
+
+const intro = document.getElementById("intro");
+const main = document.getElementById("main-content");
+const buttons = main.querySelectorAll("a");
+
+function showContent() {
+  intro.style.opacity = "0";
+  setTimeout(() => {
+    intro.style.display = "none";
+    main.style.opacity = "1";
+    main.style.transform = "translateY(0)";
+    buttons.forEach((btn, i) => {
+      setTimeout(() => btn.classList.add("fade-in"), i * 150);
+    });
+  }, 800);
+}
+
+intro.addEventListener("click", showContent);
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Enter" || e.code === "Space") showContent();
+});
+
+/* ===== COMPTEUR LOCAL ===== */
+let views = localStorage.getItem("page_views");
+
+if (!views) {
+  views = 1;
+} else {
+  views = parseInt(views) + 1;
+}
+
+localStorage.setItem("page_views", views);
+document.getElementById("views").textContent = views;
+
+</script>
+
+</body>
+</html>
