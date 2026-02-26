@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4gms</title>
+
+<style>
+
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+}
+
+/* ===== FOND ===== */
+body {
+  margin: 0;
+  background: url("https://cdn.wallpapersafari.com/53/93/E176sT.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Overlay sombre */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: -2;
+}
+
+/* Canvas particules */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+/* ===== INTRO ===== */
+#intro {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  cursor: pointer;
+  transition: opacity 0.8s ease;
+}
+
+#intro h2 {
+  font-size: 28px;
+  text-align: center;
+  padding: 20px;
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* ===== CONTENU ===== */
+#main-content {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+  padding: 140px 20px 60px;
+  text-align: center;
+}
+
+/* ===== PROFIL ===== */
+.profile-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10;
+}
+
+.profile-container img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  transition: 0.4s;
+}
+
+.profile-container img:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 20px #fff;
+}
+
+/* Glow animé pseudo */
+.profile-container h1 {
+  font-size: 26px;
+  margin: 0;
+  animation: glowPulse 3s infinite alternate;
+}
+
+@keyframes glowPulse {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 25px #fff, 0 0 40px #fff;
+  }
+}
+
+/* ===== PREMIUM CARD ===== */
+.buttons-wrapper {
+  max-width: 340px;
+  margin: auto;
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 0 25px rgba(255,255,255,0.1);
+}
+
+/* ===== BOUTONS ===== */
+a {
+  display: block;
+  margin: 15px auto;
+  padding: 14px 0;
+  width: 100%;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.05);
+  transition: 0.3s;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+a.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+a:hover {
+  border: 1px solid #fff;
+  box-shadow: 0 0 15px #fff;
+  transform: translateY(-3px);
+}
+
+/* ===== COMPTEUR ===== */
+#view-counter {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  font-size: 13px;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 0 5px #fff;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+
+  .profile-container {
+    top: 15px;
+    left: 15px;
+  }
+
+  .profile-container img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .profile-container h1 {
+    font-size: 22px;
+  }
+
+  #main-content {
+    padding-top: 120px;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- INTRO -->
+<div id="intro">
+  <h2>Click to enter...</h2>
+</div>
+
+<!-- CONTENU -->
+<div id="main-content">
+
+<div class="profile-container">
+  <img src="https://shapes.inc/api/public/avatar/itoshirinilovekei" alt="Photo de 4gms">
+  <h1>4gms</h1>
+</div>
+
+<div class="buttons-wrapper">
+  <a href="https://instagram.com/ga_etan12" target="_blank">Instagram</a>
+  <a href="https://guns.lol/upv9" target="_blank">Guns.lol</a>
+  <a href="https://paypal.me/agrumes12" target="_blank">Paypal</a>
+  <a href="https://discord.gg/zyBmkPyw" target="_blank">Contact</a>
+</div>
+
+</div>
+
+<!-- COMPTEUR -->
+<div id="view-counter">
+  👁 <span id="views">0</span>
+</div>
+
+<script>
+
+/* INTRO */
+const intro = document.getElementById("intro");
+const main = document.getElementById("main-content");
+const buttons = main.querySelectorAll("a");
+
+function showContent() {
+  intro.style.opacity = "0";
+  setTimeout(() => {
+    intro.style.display = "none";
+    main.style.opacity = "1";
+    main.style.transform = "translateY(0)";
+    buttons.forEach((btn, i) => {
+      setTimeout(() => btn.classList.add("fade-in"), i * 150);
+    });
+  }, 800);
+}
+
+intro.addEventListener("click", showContent);
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Enter" || e.code === "Space") showContent();
+});
+
+/* COMPTEUR */
+let views = localStorage.getItem("page_views");
+views = views ? parseInt(views) + 1 : 1;
+localStorage.setItem("page_views", views);
+document.getElementById("views").textContent = views;
+
+/* PARTICULES ULTRA LEGERES */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 40; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    radius: Math.random() * 1.5,
+    speedY: Math.random() * 0.5 + 0.2
+  });
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.y += p.speedY;
+    if (p.y > canvas.height) p.y = 0;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.3)";
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animateParticles);
+}
+
+animateParticles();
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+</script>
+
+</body>
+</html>
